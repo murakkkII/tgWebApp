@@ -1,0 +1,29 @@
+# DuelQuiz
+
+**Telegram Mini App для дружеских дуэлей знаний на скорость**
+
+![DuelQuiz Banner](https://via.placeholder.com/1200x400?text=DuelQuiz+-+Битва+Знаний)  
+*(замени на реальный баннер, сделанный в Canva)*
+
+## О проекте
+
+DuelQuiz — это лёгкое и весёлое Telegram-приложение, в котором вы соревнуетесь с друзьями, одногруппниками или случайными соперниками в быстрых дуэлях знаний.  
+Отвечайте на вопросы быстрее и точнее — побеждайте, набирайте очки и поднимайтесь в лидерборде.
+
+Особенности:
+- Дуэли 1 на 1 и групповые комнаты (2–8 человек)
+- Реал-тайм соревнование (10–15 секунд на ответ)
+- Позитивная мотивация: очки, стрики, бейджи, шэринг результатов
+- Монетизация через Telegram Stars (безлимит, премиум-темы, подсказки)
+
+## Технологии
+
+- **Frontend**: Telegram Web App + HTML/CSS/JavaScript (или Flutter / React)
+- **Backend**: Node.js (Express/Fastify) / Supabase / Firebase
+- **Реал-тайм**: WebSocket (Socket.io) или polling
+- **Аутентификация**: Telegram Login (по умолчанию через Web App)
+- **Хранение данных**: Supabase PostgreSQL / Firebase Firestore
+- **Монетизация**: Telegram Payments API (Stars)
+- **Хостинг**: Vercel / Render / Railway (бесплатный тариф)
+
+ 
