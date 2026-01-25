@@ -1,93 +1,82 @@
-import { useState, useEffect } from 'react'
-import StartScreen from './components/StartScreen'
-import DuelScreen from './components/DuelScreen'
-import SettingsScreen from './components/SettingsScreen'
-import HomeScreen from './components/HomeScreen'
-import './index.css'
+import { useState, useEffect } from 'react';
+import HomeScreen from './HomeScreen/HomeScreen.jsx';
+import StartScreen from './StartScreen/StartScreen.jsx';
+import DuelScreen from './DuelScreen/DuelScreen.jsx';
+import SettingsScreen from './SettingsScreen/SettingsScreen.jsx';
 
-function App() {
-  const [screen, setScreen] = useState('home') // 'home' | 'start' | 'duel' | 'settings'
-  const [score, setScore] = useState(0)
-  const [settings, setSettings] = useState({ difficulty: 'normal', sound: true })
-  const [isTelegram, setIsTelegram] = useState(false)
-  const [isLoading, setIsLoading] = useState(true)
+export default function App() {
+  const [currentScreen, setCurrentScreen] = useState('home');
+  const [score, setScore] = useState(0);
+  const [settings, setSettings] = useState({
+    difficulty: 'normal',
+    sound: true,
+    theme: 'default',
+    username: 'Игрок'
+  });
 
+  // Initialize theme
   useEffect(() => {
-    // Check if running in Telegram
-    try {
-      if (window.Telegram && window.Telegram.WebApp) {
-        setIsTelegram(true)
-        console.log('Running in Telegram Web App')
-        console.log('User:', window.Telegram.WebApp.initDataUnsafe?.user)
-      } else {
-        console.log('Not running in Telegram')
-      }
-    } catch (error) {
-      console.error('Error checking Telegram:', error)
+    const savedTheme = localStorage.getItem('quiz-theme');
+    if (savedTheme) {
+      document.documentElement.setAttribute('data-theme', savedTheme);
+      setSettings(prev => ({ ...prev, theme: savedTheme }));
     }
+  }, []);
 
-    // Simulate loading time to ensure everything is ready
-    setTimeout(() => {
-      setIsLoading(false)
-    }, 500)
-  }, [])
+  const handleStart = () => {
+    setCurrentScreen('start');
+  };
 
-  if (isLoading) {
-    return (
-      <div style={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        background: '#ffffff',
-        color: '#2d3748',
-        fontSize: '1.2rem',
-        fontWeight: '600'
-      }}>
-        🎯 Loading DuelQuiz...
-      </div>
-    )
-  }
+  const handleStartDuel = (gameSettings) => {
+    setCurrentScreen('duel');
+    setSettings(prev => ({ ...prev, ...gameSettings }));
+  };
 
-  const goToStart = () => {
-    setScreen('start')
-  }
+  const handleFinishDuel = (finalScore) => {
+    setScore(prev => prev + finalScore);
+    setCurrentScreen('start');
+  };
 
-  const startDuel = () => {
-    setScreen('duel')
-  }
+  const handleSettings = () => {
+    setCurrentScreen('settings');
+  };
 
-  const finishDuel = (finalScore) => {
-    setScore(finalScore)
-    setScreen('start')
-  }
+  const handleSaveSettings = (newSettings) => {
+    setSettings(newSettings);
+    
+    if (newSettings.theme && newSettings.theme !== 'default') {
+      document.documentElement.setAttribute('data-theme', newSettings.theme);
+      localStorage.setItem('quiz-theme', newSettings.theme);
+    } else {
+      document.documentElement.removeAttribute('data-theme');
+      localStorage.removeItem('quiz-theme');
+    }
+    
+    setCurrentScreen('home');
+  };
 
-  const goToSettings = () => {
-    setScreen('settings')
-  }
+  const handleHome = () => {
+    setCurrentScreen('home');
+  };
 
-  const saveSettings = (newSettings) => {
-    setSettings(newSettings)
-    setScreen('home')
-  }
-
-  const goHome = () => {
-    setScreen('home')
-  }
+  const renderScreen = () => {
+    switch (currentScreen) {
+      case 'home':
+        return <HomeScreen onStart={handleStart} onSettings={handleSettings} />;
+      case 'start':
+        return <StartScreen onStart={handleStartDuel} onSettings={handleSettings} score={score} onHome={handleHome} />;
+      case 'duel':
+        return <DuelScreen onFinish={handleFinishDuel} settings={settings} onHome={handleHome} />;
+      case 'settings':
+        return <SettingsScreen onSave={handleSaveSettings} onBack={() => setCurrentScreen('home')} initialSettings={settings} onHome={handleHome} />;
+      default:
+        return <HomeScreen onStart={handleStart} onSettings={handleSettings} />;
+    }
+  };
 
   return (
-    <div className="app">
-      {screen === 'home' ? (
-        <HomeScreen onStart={goToStart} onSettings={goToSettings} />
-      ) : screen === 'start' ? (
-        <StartScreen onStart={startDuel} onSettings={goToSettings} score={score} onHome={goHome} />
-      ) : screen === 'duel' ? (
-        <DuelScreen onFinish={finishDuel} settings={settings} onHome={goHome} />
-      ) : (
-        <SettingsScreen onSave={saveSettings} onBack={goHome} initialSettings={settings} onHome={goHome} />
-      )}
-    </div>
-  )
+    <>
+      {renderScreen()}
+    </>
+  );
 }
-
-export default App

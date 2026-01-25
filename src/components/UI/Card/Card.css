@@ -1,0 +1,89 @@
+.card {
+  background: var(--bg-card);
+  border-radius: var(--border-radius-lg);
+  border: 1px solid var(--border-color);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+/* Variants */
+.card--default {
+  background: var(--bg-card);
+}
+
+.card--glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.card--gradient {
+  background: linear-gradient(135deg, var(--color-primary), var(--color-secondary));
+  color: white;
+  border: none;
+}
+
+.card--accent {
+  background: linear-gradient(135deg, var(--color-accent), var(--color-warning));
+  color: white;
+  border: none;
+}
+
+/* Elevations */
+.card--elevation-none {
+  box-shadow: none;
+}
+
+.card--elevation-low {
+  box-shadow: var(--shadow-sm);
+}
+
+.card--elevation-medium {
+  box-shadow: var(--shadow-md);
+}
+
+.card--elevation-high {
+  box-shadow: var(--shadow-lg);
+}
+
+/* Padding */
+.card--padding-none {
+  padding: 0;
+}
+
+.card--padding-small {
+  padding: 16px;
+}
+
+.card--padding-medium {
+  padding: 24px;
+}
+
+.card--padding-large {
+  padding: 32px;
+}
+
+/* Hover effects */
+.card:hover {
+  border-color: var(--color-primary);
+}
+
+.card--interactive {
+  cursor: pointer;
+}
+
+.card--interactive:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .card--padding-medium {
+    padding: 20px;
+  }
+  
+  .card--padding-large {
+    padding: 24px;
+  }
+}
