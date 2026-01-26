@@ -1,0 +1,144 @@
+.start-screen {
+  min-height: calc(100vh - var(--header-height) - var(--bottom-nav-height));
+  padding: 2rem 0;
+}
+
+.start-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.back-btn {
+  width: 40px;
+  height: 40px;
+  border-radius: var(--radius-md);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: var(--text-primary);
+  transition: all var(--transition-fast);
+}
+
+.back-btn:hover {
+  background: var(--bg-secondary);
+  transform: translateX(-2px);
+}
+
+.start-header h1 {
+  flex: 1;
+  margin: 0;
+  text-align: center;
+}
+
+.score-badge {
+  padding: 8px 16px;
+  background: var(--gradient-primary);
+  border-radius: var(--radius-md);
+  color: white;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.modes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.mode-card {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  cursor: pointer;
+  transition: all var(--transition-base);
+}
+
+.mode-card:hover {
+  transform: translateY(-8px);
+}
+
+.mode-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.mode-icon {
+  width: 48px;
+  height: 48px;
+  min-width: 48px;
+  border-radius: var(--radius-md);
+  background: var(--color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+}
+
+.mode-info {
+  flex: 1;
+}
+
+.mode-info h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.25rem;
+}
+
+.mode-description {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.mode-stats {
+  display: flex;
+  gap: 1.5rem;
+}
+
+.stat {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .start-header {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: center;
+  }
+  
+  .back-btn {
+    align-self: flex-start;
+  }
+  
+  .modes-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .score-badge {
+    align-self: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .mode-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+  
+  .mode-stats {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+}
