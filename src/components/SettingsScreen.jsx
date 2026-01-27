@@ -177,10 +177,10 @@ export default function SettingsScreen({ onSave, onBack, initialSettings }) {
       </div>
 
       <div className="bottom-bar">
-        <button className="btn reset-btn" onClick={reset} disabled={isSaving}>
+        <button className="btn reset" onClick={reset} disabled={isSaving}>
           Сбросить
         </button>
-        <button className="btn save-btn" onClick={save} disabled={isSaving}>
+        <button className="btn save" onClick={save} disabled={isSaving}>
           {isSaving ? 'Сохраняется...' : 'Сохранить'}
         </button>
       </div>

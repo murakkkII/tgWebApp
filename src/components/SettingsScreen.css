@@ -166,10 +166,12 @@ input[type="range"]::-webkit-slider-thumb {
 }
 
 .bottom-bar {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  /* убрали fixed */
+  position: relative;
+  bottom: auto;
+  left: auto;
+  right: auto;
+
   background: #0d1117;
   border-top: 1px solid #1e293b;
   padding: 16px;
@@ -188,6 +190,7 @@ input[type="range"]::-webkit-slider-thumb {
   align-items: center;
   justify-content: center;
   gap: 8px;
+  /* убрали z-index */
 }
 
 .reset {
@@ -198,6 +201,7 @@ input[type="range"]::-webkit-slider-thumb {
 .save {
   background: #238636;
   color: white;
+  border-color: #238636;
 }
 
 .btn:disabled {
