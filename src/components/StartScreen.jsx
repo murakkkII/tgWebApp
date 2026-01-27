@@ -1,7 +1,8 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Sword, Zap, Brain, Clock, Target, ArrowLeft } from 'lucide-react';
+import { Sword, Zap, Brain, Clock, Target, ArrowLeft, UserRoundPlus} from 'lucide-react';
 import './StartScreen.css';
+import { on } from '@telegram-apps/sdk';
 
 function StartScreen({ score }) {
   const navigate = useNavigate();
@@ -33,6 +34,15 @@ function StartScreen({ score }) {
       time: '3 мин',
       difficulty: 'Сложная',
       color: '#ec4899'
+    },
+    {
+      id:  'team-battle',
+      title: 'Командная игра',
+      icon: UserRoundPlus,
+      description: 'Играй вместе с друзьями',
+      time: 'неограничено',
+      difficulty: 'Варьируется',
+      color: '#37799f'
     }
   ];
 
@@ -55,7 +65,7 @@ function StartScreen({ score }) {
             <div 
               key={mode.id}
               className="mode-card card"
-              onClick={() => navigate('/duel')}
+              onClick={() => mode.id === 'team-battle' ? navigate('/team-battle') : navigate('/duel')}
             >
               <div className="mode-header">
                 <div className="mode-icon" style={{ background: mode.color }}>
