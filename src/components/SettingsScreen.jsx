@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useMotionValue, useTransform, animate } from 'framer-motion';
-import { 
+import {
   ArrowLeft,
   User,
   Gamepad,
@@ -15,11 +15,10 @@ import {
   CheckCircle,
   RefreshCw,
   ChevronDown,
-  ChevronRight
 } from 'lucide-react';
 import './SettingsScreen.css';
 
-// Эластичный слайдер
+// Эластичный слайдер (оставил без изменений)
 const MAX_OVERFLOW = 50;
 
 function ElasticSlider({
@@ -32,7 +31,7 @@ function ElasticSlider({
   showValue = true,
   className = '',
   step = 1,
-  color = '#3b82f6'
+  color = '#3b82f6',
 }) {
   const sliderRef = useRef(null);
   const [region, setRegion] = useState('middle');
@@ -51,10 +50,8 @@ function ElasticSlider({
       if (isDragging && sliderRef.current) {
         const { left, width } = sliderRef.current.getBoundingClientRect();
         let newValue = min + ((e.clientX - left) / width) * (max - min);
-        
         newValue = Math.round(newValue / step) * step;
         newValue = Math.min(Math.max(newValue, min), max);
-        
         setInternalValue(newValue);
         onChange(newValue);
         clientX.set(e.clientX);
@@ -62,7 +59,6 @@ function ElasticSlider({
         // Эластичный эффект
         const { left: trackLeft, right: trackRight } = sliderRef.current.getBoundingClientRect();
         let newOverflow = 0;
-
         if (e.clientX < trackLeft) {
           setRegion('left');
           newOverflow = trackLeft - e.clientX;
@@ -73,7 +69,6 @@ function ElasticSlider({
           setRegion('middle');
           newOverflow = 0;
         }
-
         overflow.set(decay(newOverflow, MAX_OVERFLOW));
       }
     };
@@ -125,7 +120,6 @@ function ElasticSlider({
   });
 
   const scaleY = useTransform(overflow, [0, MAX_OVERFLOW], [1, 0.85]);
-
   const transformOrigin = useTransform(() => {
     if (sliderRef.current && clientX.get() !== 0) {
       const { left, width } = sliderRef.current.getBoundingClientRect();
@@ -150,7 +144,7 @@ function ElasticSlider({
         onTouchEnd={() => animate(scale, 1)}
         style={{
           scale,
-          opacity: useTransform(scale, [1, 1.1], [0.9, 1])
+          opacity: useTransform(scale, [1, 1.1], [0.9, 1]),
         }}
         className="elastic-slider-wrapper"
       >
@@ -159,15 +153,12 @@ function ElasticSlider({
             animate={{
               scale: region === 'left' ? [1, 1.3, 1] : 1,
             }}
-            style={{
-              x: leftIconX
-            }}
+            style={{ x: leftIconX }}
             className="elastic-slider-icon"
           >
             {leftIcon}
           </motion.div>
         )}
-
         <div
           ref={sliderRef}
           className="elastic-slider-root"
@@ -180,39 +171,35 @@ function ElasticSlider({
               transformOrigin,
               height: sliderHeight,
               marginTop: sliderMarginTop,
-              marginBottom: sliderMarginBottom
+              marginBottom: sliderMarginBottom,
             }}
             className="elastic-slider-track-wrapper"
           >
             <div className="elastic-slider-track">
-              <div 
-                className="elastic-slider-range" 
-                style={{ 
+              <div
+                className="elastic-slider-range"
+                style={{
                   width: `${getRangePercentage()}%`,
-                  backgroundColor: color
-                }} 
+                  backgroundColor: color,
+                }}
               />
             </div>
           </motion.div>
         </div>
-
         {rightIcon && (
           <motion.div
             animate={{
               scale: region === 'right' ? [1, 1.3, 1] : 1,
             }}
-            style={{
-              x: rightIconX
-            }}
+            style={{ x: rightIconX }}
             className="elastic-slider-icon"
           >
             {rightIcon}
           </motion.div>
         )}
       </motion.div>
-      
       {showValue && (
-        <motion.div 
+        <motion.div
           className="elastic-slider-value"
           animate={{ scale: [1, 1.1, 1] }}
           transition={{ duration: 0.2 }}
@@ -227,57 +214,71 @@ function ElasticSlider({
 
 function SettingsScreen({ initialSettings }) {
   const navigate = useNavigate();
-  const [settings, setSettings] = useState(initialSettings || {
-    username: 'Игрок',
-    difficulty: 'normal',
-    questionCount: 10,
+
+  const [settings, setSettings] = useState(
+    initialSettings || {
+      username: 'Игрок',
+      difficulty: 'normal',
+      questionCount: 10,
+      sound: true,
+      volume: 80,
+      animations: true,
+      notifications: true,
+    }
+  );
+
+  // ← Все секции свёрнуты по умолчанию
+  const [collapsedSections, setCollapsedSections] = useState({
+    username: true,
+    difficulty: true,
+    questions: true,
     sound: true,
-    volume: 80,
     animations: true,
     notifications: true,
   });
 
-  const [collapsedSections, setCollapsedSections] = useState({});
   const [saveStatus, setSaveStatus] = useState(null);
   const saveTimeoutRef = useRef(null);
   const lastSavedRef = useRef(null);
 
   // Автосохранение
-  const autoSave = useCallback((newSettings) => {
-    if (saveTimeoutRef.current) {
-      clearTimeout(saveTimeoutRef.current);
-    }
-
-    saveTimeoutRef.current = setTimeout(async () => {
-      setSaveStatus('saving');
-      
-      try {
-        // Здесь будет вызов API для сохранения
-        await new Promise(resolve => setTimeout(resolve, 300));
-        
-        lastSavedRef.current = Date.now();
-        setSaveStatus('saved');
-        
-        setTimeout(() => setSaveStatus(null), 2000);
-      } catch (error) {
-        setSaveStatus('error');
-        setTimeout(() => setSaveStatus(null), 2000);
+  const autoSave = useCallback(
+    (newSettings) => {
+      if (saveTimeoutRef.current) {
+        clearTimeout(saveTimeoutRef.current);
       }
-    }, 500);
-  }, []);
+      saveTimeoutRef.current = setTimeout(async () => {
+        setSaveStatus('saving');
+        try {
+          // Здесь будет вызов API для сохранения
+          await new Promise((resolve) => setTimeout(resolve, 300));
+          lastSavedRef.current = Date.now();
+          setSaveStatus('saved');
+          setTimeout(() => setSaveStatus(null), 2000);
+        } catch (error) {
+          setSaveStatus('error');
+          setTimeout(() => setSaveStatus(null), 2000);
+        }
+      }, 500);
+    },
+    []
+  );
 
-  const updateSetting = useCallback((key, value) => {
-    setSettings(prev => {
-      const newSettings = { ...prev, [key]: value };
-      autoSave(newSettings);
-      return newSettings;
-    });
-  }, [autoSave]);
+  const updateSetting = useCallback(
+    (key, value) => {
+      setSettings((prev) => {
+        const newSettings = { ...prev, [key]: value };
+        autoSave(newSettings);
+        return newSettings;
+      });
+    },
+    [autoSave]
+  );
 
   const toggleSection = useCallback((section) => {
-    setCollapsedSections(prev => ({
+    setCollapsedSections((prev) => ({
       ...prev,
-      [section]: !prev[section]
+      [section]: !prev[section],
     }));
   }, []);
 
@@ -312,7 +313,7 @@ function SettingsScreen({ initialSettings }) {
           />
           <div className="input-counter">{settings.username.length}/20</div>
         </motion.div>
-      )
+      ),
     },
     {
       id: 'difficulty',
@@ -330,7 +331,7 @@ function SettingsScreen({ initialSettings }) {
             {[
               { value: 'easy', label: 'Легко', color: '#10b981' },
               { value: 'normal', label: 'Нормально', color: '#3b82f6' },
-              { value: 'hard', label: 'Сложно', color: '#ef4444' }
+              { value: 'hard', label: 'Сложно', color: '#ef4444' },
             ].map((option) => (
               <motion.button
                 key={option.value}
@@ -345,7 +346,7 @@ function SettingsScreen({ initialSettings }) {
             ))}
           </div>
         </motion.div>
-      )
+      ),
     },
     {
       id: 'questions',
@@ -370,7 +371,7 @@ function SettingsScreen({ initialSettings }) {
             showValue={true}
           />
         </motion.div>
-      )
+      ),
     },
     {
       id: 'sound',
@@ -386,10 +387,7 @@ function SettingsScreen({ initialSettings }) {
         >
           <div className="sound-toggle">
             <span>Звуковые эффекты</span>
-            <motion.label 
-              className="toggle-switch"
-              whileTap={{ scale: 0.9 }}
-            >
+            <motion.label className="toggle-switch" whileTap={{ scale: 0.9 }}>
               <input
                 type="checkbox"
                 checked={settings.sound}
@@ -398,7 +396,6 @@ function SettingsScreen({ initialSettings }) {
               <span className="toggle-slider" />
             </motion.label>
           </div>
-          
           {settings.sound && (
             <motion.div
               initial={{ opacity: 0, height: 0 }}
@@ -421,7 +418,7 @@ function SettingsScreen({ initialSettings }) {
             </motion.div>
           )}
         </motion.div>
-      )
+      ),
     },
     {
       id: 'animations',
@@ -437,10 +434,7 @@ function SettingsScreen({ initialSettings }) {
         >
           <div className="toggle-item">
             <span>Анимации интерфейса</span>
-            <motion.label 
-              className="toggle-switch"
-              whileTap={{ scale: 0.9 }}
-            >
+            <motion.label className="toggle-switch" whileTap={{ scale: 0.9 }}>
               <input
                 type="checkbox"
                 checked={settings.animations}
@@ -450,7 +444,7 @@ function SettingsScreen({ initialSettings }) {
             </motion.label>
           </div>
         </motion.div>
-      )
+      ),
     },
     {
       id: 'notifications',
@@ -466,10 +460,7 @@ function SettingsScreen({ initialSettings }) {
         >
           <div className="toggle-item">
             <span>Получать уведомления</span>
-            <motion.label 
-              className="toggle-switch"
-              whileTap={{ scale: 0.9 }}
-            >
+            <motion.label className="toggle-switch" whileTap={{ scale: 0.9 }}>
               <input
                 type="checkbox"
                 checked={settings.notifications}
@@ -479,8 +470,8 @@ function SettingsScreen({ initialSettings }) {
             </motion.label>
           </div>
         </motion.div>
-      )
-    }
+      ),
+    },
   ];
 
   const handleReset = useCallback(() => {
@@ -498,7 +489,7 @@ function SettingsScreen({ initialSettings }) {
   }, [autoSave]);
 
   return (
-    <motion.div 
+    <motion.div
       className="settings-screen"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -506,7 +497,7 @@ function SettingsScreen({ initialSettings }) {
     >
       <div className="settings-container">
         <div className="settings-header">
-          <motion.button 
+          <motion.button
             className="back-button"
             onClick={() => navigate(-1)}
             whileHover={{ scale: 1.05 }}
@@ -514,13 +505,11 @@ function SettingsScreen({ initialSettings }) {
           >
             <ArrowLeft size={22} />
           </motion.button>
-          
           <div className="header-content">
             <SettingsIcon size={26} className="header-icon" />
             <h1>Настройки</h1>
-            
             {saveStatus && (
-              <motion.div 
+              <motion.div
                 className={`save-status ${saveStatus}`}
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
@@ -551,9 +540,8 @@ function SettingsScreen({ initialSettings }) {
         <div className="settings-content">
           {settingsSections.map((section) => {
             const Icon = section.icon;
-            
             return (
-              <motion.div 
+              <motion.div
                 key={section.id}
                 className="setting-section"
                 initial={{ opacity: 0, y: 20 }}
@@ -561,7 +549,7 @@ function SettingsScreen({ initialSettings }) {
                 transition={{ duration: 0.2 }}
                 whileHover={{ scale: 1.005 }}
               >
-                <motion.div 
+                <motion.div
                   className="section-header"
                   onClick={() => toggleSection(section.id)}
                   whileHover={{ backgroundColor: 'rgba(59, 130, 246, 0.05)' }}
@@ -570,10 +558,8 @@ function SettingsScreen({ initialSettings }) {
                   <div className="section-icon">
                     <Icon size={20} />
                   </div>
-                  
                   <span className="section-label">{section.label}</span>
-                  
-                  <motion.div 
+                  <motion.div
                     className="collapse-icon"
                     animate={{ rotate: section.isCollapsed ? -90 : 0 }}
                     transition={{ duration: 0.2 }}
@@ -581,14 +567,14 @@ function SettingsScreen({ initialSettings }) {
                     <ChevronDown size={20} />
                   </motion.div>
                 </motion.div>
-                
+
                 {!section.isCollapsed && section.content}
               </motion.div>
             );
           })}
         </div>
 
-        <motion.div 
+        <motion.div
           className="action-buttons"
           initial={{ y: 20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
