@@ -1,210 +1,457 @@
-/* SettingsScreen.css — цвета из твоего DuelScreen/StartScreen */
+/* SettingsScreen.css */
+:root {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --border-color: #475569;
+  --accent-color: #3b82f6;
+  --accent-hover: #2563eb;
+  --success-color: #10b981;
+  --danger-color: #ef4444;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
 
 .settings-screen {
   min-height: 100vh;
-  background: #0d1117;
-  color: #e2e8f0;
-  padding-bottom: 100px;
+  background: var(--bg-primary);
+  display: flex;
+  justify-content: center;
+  padding: 20px;
 }
 
-.header {
+.settings-container {
+  width: 100%;
+  max-width: 480px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Хедер */
+.settings-header {
   display: flex;
   align-items: center;
   gap: 16px;
-  padding: 16px 20px;
-  border-bottom: 1px solid #1e293b;
+  padding-bottom: 8px;
+  position: relative;
 }
 
-.back-btn {
-  background: #1e293b;
-  border: none;
-  color: #94a3b8;
+.back-button {
   width: 44px;
   height: 44px;
-  border-radius: 50%;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-md);
   display: flex;
   align-items: center;
   justify-content: center;
+  color: var(--text-secondary);
   cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
-.back-btn:hover {
-  background: #2d3748;
-}
-
-h1 {
-  margin: 0;
-  font-size: 1.6rem;
-  font-weight: 600;
-}
-
-.content {
-  padding: 16px 20px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.setting {
-  background: #161b22;
-  border-radius: 12px;
-  padding: 16px;
-  border: 1px solid #21262d;
-}
-
-.setting label {
-  display: block;
-  font-size: 0.95rem;
-  font-weight: 500;
-  margin-bottom: 8px;
-}
-
-.setting input[type="text"] {
-  width: 100%;
-  padding: 12px 16px;
-  background: #0f172a;
-  border: 1px solid #30363d;
-  border-radius: 10px;
-  color: #e2e8f0;
-  font-size: 1.05rem;
-}
-
-.difficulty-buttons {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-  margin-top: 8px;
-}
-
-.difficulty-buttons button {
-  flex: 1;
-  min-width: 80px;
-  padding: 10px;
-  background: #21262d;
-  border: 1px solid #30363d;
-  border-radius: 10px;
-  color: #cbd5e1;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.difficulty-buttons button.active {
-  background: #238636;
-  color: white;
-  border-color: #238636;
-}
-
-.slider-group {
-  margin-top: 8px;
-}
-
-input[type="range"] {
-  width: 100%;
-  height: 6px;
-  background: #30363d;
-  border-radius: 3px;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-  width: 20px;
-  height: 20px;
-  background: #3b82f6;
-  border-radius: 50%;
-  border: 3px solid #0d1117;
-  cursor: pointer;
-}
-
-.volume-control {
+.header-content {
   display: flex;
   align-items: center;
   gap: 12px;
-  margin-top: 12px;
+  flex: 1;
 }
 
-.toggle {
+.header-icon {
+  color: var(--accent-color);
+}
+
+.settings-header h1 {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.save-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-left: auto;
+}
+
+.save-status.saving {
+  color: var(--accent-color);
+}
+
+.save-status.saved {
+  color: var(--success-color);
+}
+
+.save-status.error {
+  color: var(--danger-color);
+}
+
+.saving-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid currentColor;
+  border-top-color: transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Секции настроек */
+.settings-content {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.setting-section {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.setting-section:hover {
+  border-color: var(--accent-color);
+}
+
+.section-header {
+  display: flex;
+  align-items: center;
+  padding: 16px 20px;
+  gap: 16px;
+  cursor: pointer;
+  user-select: none;
+  transition: background-color 0.2s ease;
+}
+
+.section-icon {
+  width: 40px;
+  height: 40px;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-color);
+  flex-shrink: 0;
+}
+
+.section-label {
+  flex: 1;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.collapse-icon {
+  color: var(--text-secondary);
+  transition: transform 0.2s ease;
+}
+
+/* Контент настроек */
+.setting-content {
+  padding: 0 20px 20px 76px;
+}
+
+.setting-input {
+  width: 100%;
+  padding: 14px 16px;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  font-size: 16px;
+  transition: all 0.2s ease;
+}
+
+.setting-input:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.input-counter {
+  text-align: right;
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+/* Кнопки сложности */
+.difficulty-grid {
+  display: flex;
+  gap: 8px;
+}
+
+.difficulty-option {
+  flex: 1;
+  padding: 12px 16px;
+  background: transparent;
+  border: 1px solid var(--border-color);
+  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.difficulty-option:hover {
+  border-color: var(--accent-color);
+  color: var(--text-primary);
+}
+
+.difficulty-option.active {
+  background: var(--option-color, var(--accent-color));
+  border-color: transparent;
+  color: white;
+}
+
+/* Эластичные слайдеры */
+.elastic-slider-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  margin: 12px 0;
+}
+
+.elastic-slider-wrapper {
+  display: flex;
+  width: 100%;
+  touch-action: none;
+  user-select: none;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.elastic-slider-icon {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+}
+
+.elastic-slider-root {
   position: relative;
-  width: 52px;
-  height: 28px;
+  display: flex;
+  width: 100%;
+  flex-grow: 1;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  align-items: center;
+  padding: 12px 0;
 }
 
-.toggle input {
+.elastic-slider-track-wrapper {
+  display: flex;
+  flex-grow: 1;
+}
+
+.elastic-slider-track {
+  position: relative;
+  height: 100%;
+  flex-grow: 1;
+  overflow: hidden;
+  border-radius: 9999px;
+  background-color: var(--border-color);
+}
+
+.elastic-slider-range {
+  position: absolute;
+  height: 100%;
+  border-radius: 9999px;
+}
+
+.elastic-slider-value {
+  color: var(--text-primary);
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+}
+
+/* Переключатели */
+.sound-toggle,
+.toggle-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.sound-toggle span,
+.toggle-item span {
+  font-size: 15px;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.toggle-switch {
+  position: relative;
+  display: inline-block;
+  width: 52px;
+  height: 26px;
+  cursor: pointer;
+}
+
+.toggle-switch input {
   opacity: 0;
   width: 0;
   height: 0;
 }
 
-.toggle-track {
+.toggle-slider {
   position: absolute;
   cursor: pointer;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
-  background: #30363d;
-  border-radius: 28px;
-  transition: .4s;
+  background: var(--bg-tertiary);
+  border: 2px solid var(--border-color);
+  border-radius: 34px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.toggle-track:before {
+.toggle-slider:before {
   position: absolute;
   content: "";
-  height: 20px;
-  width: 20px;
-  left: 4px;
-  bottom: 4px;
+  height: 18px;
+  width: 18px;
+  left: 2px;
+  bottom: 2px;
   background: white;
   border-radius: 50%;
-  transition: .4s;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.toggle input:checked + .toggle-track {
-  background: #238636;
+input:checked + .toggle-slider {
+  background: var(--success-color);
+  border-color: var(--success-color);
 }
 
-.toggle input:checked + .toggle-track:before {
-  transform: translateX(24px);
+input:checked + .toggle-slider:before {
+  transform: translateX(26px);
 }
 
-.bottom-bar {
-  /* убрали fixed */
-  position: relative;
-  bottom: auto;
-  left: auto;
-  right: auto;
-
-  background: #0d1117;
-  border-top: 1px solid #1e293b;
+.volume-control {
+  margin-top: 16px;
   padding: 16px;
-  display: flex;
-  gap: 12px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
-.btn {
-  flex: 1;
-  padding: 14px;
-  border-radius: 10px;
-  font-weight: 500;
-  cursor: pointer;
-  border: none;
+/* Кнопка сброса */
+.action-buttons {
+  display: flex;
+  padding-top: 20px;
+  border-top: 1px solid var(--border-color);
+  margin-top: 8px;
+}
+
+.reset-button {
+  width: 100%;
+  padding: 16px 24px;
+  background: transparent;
+  border: 2px solid var(--border-color);
+  border-radius: var(--radius-lg);
+  color: var(--text-secondary);
+  font-size: 15px;
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  /* убрали z-index */
+  gap: 10px;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.reset {
-  background: #21262d;
-  color: #cbd5e1;
+.reset-button:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: var(--text-secondary);
+  color: var(--text-primary);
 }
 
-.save {
-  background: #238636;
-  color: white;
-  border-color: #238636;
+/* Адаптивность */
+@media (max-width: 768px) {
+  .settings-screen {
+    padding: 16px;
+  }
+  
+  .settings-container {
+    gap: 16px;
+  }
+  
+  .settings-header h1 {
+    font-size: 24px;
+  }
+  
+  .setting-content {
+    padding: 0 16px 16px 68px;
+  }
+  
+  .section-header {
+    padding: 14px 16px;
+  }
 }
 
-.btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+@media (max-width: 480px) {
+  .setting-content {
+    padding: 0 16px 16px 16px;
+  }
+  
+  .difficulty-grid {
+    flex-direction: column;
+  }
+  
+  .elastic-slider-wrapper {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .settings-screen {
+    padding: 12px;
+  }
+  
+  .section-header {
+    padding: 12px;
+    gap: 12px;
+  }
+  
+  .section-icon {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .reset-button {
+    padding: 14px 20px;
+    font-size: 14px;
+  }
 }
