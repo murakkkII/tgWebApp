@@ -1,227 +1,868 @@
-.leaderboard {
+:root {
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --text-tertiary: #64748b;
+  --accent-primary: #3b82f6;
+  --accent-secondary: #8b5cf6;
+  --accent-warning: #f59e0b;
+  --accent-success: #10b981;
+  --accent-danger: #ef4444;
+}
+
+.leaderboard-screen {
   min-height: 100vh;
-  background: #0d1117;
-  color: #e2e8f0;
-  padding: 20px 16px;
-  padding-bottom: 80px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
 }
 
-.header {
-  text-align: center;
-  margin-bottom: 32px;
+.leaderboard-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
 }
 
-.header .crown-icon {
-  color: #f59e0b;
-  margin-bottom: 12px;
+/* Скрываем десктопную версию на мобильных */
+.mobile-version {
+  display: block;
 }
 
-.header h1 {
-  margin: 0;
-  font-size: clamp(1.8rem, 6vw, 2.4rem);
+.desktop-version {
+  display: none;
+}
+
+/* ===== МОБИЛЬНАЯ ВЕРСИЯ ===== */
+.mobile-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.header-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 16px rgba(59, 130, 246, 0.2);
+}
+
+h1 {
+  font-size: 1.5rem;
   font-weight: 800;
-  background: linear-gradient(90deg, #3b82f6, #a855f7);
+  margin: 0;
+  background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
-.header p {
-  color: #94a3b8;
-  font-size: 1.05rem;
-  margin-top: 8px;
+.mobile-subtitle {
+  color: var(--text-secondary);
+  font-size: 0.875rem;
+  margin: 2px 0 0 0;
 }
 
-/* Пьедестал топ-3 */
-.podium {
-  display: flex;
-  justify-content: center;
-  gap: 12px;
-  align-items: flex-end;
-  margin-bottom: 40px;
-  flex-wrap: wrap;
-}
-
-.podium-position {
-  position: relative;
-  text-align: center;
-  width: clamp(100px, 28vw, 160px);
-  transition: transform 0.3s ease;
-}
-
-.podium-position:hover {
-  transform: translateY(-12px);
-}
-
-.podium-position.current-user {
-  transform: scale(1.08);
-  z-index: 10;
-}
-
-.rank-1 { order: 2; }
-.rank-2 { order: 1; transform: translateY(20px); }
-.rank-3 { order: 3; transform: translateY(40px); }
-
-.medal {
-  margin-bottom: 12px;
-}
-
-.gold { color: #f59e0b; }
-.silver { color: #94a3b8; }
-.bronze { color: #cd7f32; }
-
-.avatar {
-  width: clamp(60px, 18vw, 80px);
-  height: clamp(60px, 18vw, 80px);
-  background: #21262d;
-  border-radius: 50%;
-  margin: 0 auto 8px;
+.mobile-user-card {
+  background: rgba(30, 41, 59, 0.8);
+  border: 1px solid rgba(59, 130, 246, 0.3);
+  border-radius: 14px;
+  padding: 12px 16px;
   display: flex;
   align-items: center;
-  justify-content: center;
-  border: 4px solid #30363d;
+  justify-content: space-between;
+  backdrop-filter: blur(10px);
+  margin-bottom: 20px;
 }
 
-.name {
-  font-size: clamp(0.95rem, 3.5vw, 1.1rem);
-  font-weight: 600;
-  margin-bottom: 4px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+.mobile-user-rank {
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--accent-warning);
+  min-width: 40px;
 }
 
-.you {
-  background: #3b82f6;
-  color: white;
-  font-size: 0.7rem;
-  padding: 2px 6px;
-  border-radius: 10px;
-  margin-left: 6px;
-}
-
-.score {
-  font-size: clamp(1.1rem, 4vw, 1.4rem);
-  font-weight: 700;
-  color: #f59e0b;
-}
-
-.podium-base {
-  background: #21262d;
-  border-radius: 8px 8px 0 0;
-  margin-top: 8px;
+.mobile-user-info {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  color: #94a3b8;
-  font-size: 0.95rem;
-}
-
-/* Таблица остальных */
-.table-container {
-  background: #161b22;
-  border-radius: 12px;
-  overflow: hidden;
-  border: 1px solid #21262d;
-}
-
-.table-row {
-  display: flex;
-  align-items: center;
-  padding: 14px 16px;
-  border-bottom: 1px solid #21262d;
-  transition: all 0.2s;
-  font-size: 0.95rem;
-}
-
-.table-row:hover {
-  background: #1e293b;
-}
-
-.table-row.current-user {
-  background: rgba(59, 130, 246, 0.12);
-  border-left: 4px solid #3b82f6;
-}
-
-.table-row:last-child {
-  border-bottom: none;
-}
-
-.table-row .rank {
-  width: 50px;
-  font-weight: 600;
-  color: #94a3b8;
-}
-
-.table-row .name {
+  gap: 10px;
   flex: 1;
-  font-weight: 500;
+}
+
+.mobile-avatar {
+  width: 36px;
+  height: 36px;
+  background: var(--bg-tertiary);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mobile-username {
+  font-weight: 600;
+  font-size: 0.95rem;
+  margin-bottom: 2px;
+}
+
+.mobile-userscore {
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+}
+
+.mobile-chevron {
+  color: var(--text-tertiary);
+}
+
+/* Пьедестал */
+.mobile-podium {
+  background: rgba(30, 41, 59, 0.6);
+  border-radius: 16px;
+  padding: 16px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 16px;
+}
+
+.podium-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent-warning);
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  padding-left: 4px;
+}
+
+.podium-compact {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.podium-compact-card {
+  display: grid;
+  grid-template-columns: 40px 50px 1fr auto;
+  align-items: center;
+  padding: 10px 12px;
+  background: rgba(51, 65, 85, 0.4);
+  border-radius: 12px;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+}
+
+.podium-compact-card:hover {
+  border-color: rgba(59, 130, 246, 0.3);
+  transform: translateY(-1px);
+}
+
+.podium-compact-card.current-mobile {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.compact-rank {
+  font-size: 1.1rem;
+  font-weight: 800;
+  text-align: center;
+}
+
+.compact-rank:nth-child(1) { color: #f59e0b; }
+.compact-rank:nth-child(2) { color: #94a3b8; }
+.compact-rank:nth-child(3) { color: #cd7f32; }
+
+.avatar-compact {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid;
+}
+
+.avatar-compact.rank-1 { border-color: #f59e0b; background: rgba(245, 158, 11, 0.1); }
+.avatar-compact.rank-2 { border-color: #94a3b8; background: rgba(148, 163, 184, 0.1); }
+.avatar-compact.rank-3 { border-color: #cd7f32; background: rgba(205, 127, 50, 0.1); }
+
+.compact-info {
+  padding-left: 8px;
+}
+
+.compact-name {
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 2px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
-.table-row .score {
+.compact-score {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
+.compact-progress {
+  padding: 4px 8px;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  min-width: 45px;
+  text-align: center;
+}
+
+.compact-progress.positive {
+  background: rgba(16, 185, 129, 0.15);
+  color: var(--accent-success);
+}
+
+.compact-progress.negative {
+  background: rgba(239, 68, 68, 0.15);
+  color: var(--accent-danger);
+}
+
+/* Список игроков */
+.mobile-players {
+  background: rgba(30, 41, 59, 0.6);
+  border-radius: 16px;
+  padding: 16px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 16px;
+}
+
+.players-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--accent-secondary);
+  font-size: 0.875rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  padding-left: 4px;
+}
+
+.players-compact-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.player-compact-row {
+  display: grid;
+  grid-template-columns: 35px 32px 1fr auto;
+  align-items: center;
+  padding: 8px 10px;
+  background: rgba(51, 65, 85, 0.4);
+  border-radius: 10px;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+.player-compact-row:hover {
+  background: rgba(51, 65, 85, 0.6);
+}
+
+.player-compact-row.current-mobile-row {
+  background: rgba(59, 130, 246, 0.15);
+  border-left: 3px solid var(--accent-primary);
+}
+
+.player-rank {
   font-weight: 700;
-  color: #f59e0b;
-  min-width: 80px;
-  text-align: right;
+  color: var(--text-secondary);
+  text-align: center;
+  font-size: 0.9rem;
 }
 
-/* Мобильная версия — всё уменьшено, но красиво */
-@media (max-width: 640px) {
-  .leaderboard {
-    padding: 16px 12px;
-  }
+.avatar-tiny {
+  width: 28px;
+  height: 28px;
+  background: rgba(71, 85, 105, 0.8);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-  .header h1 {
-    font-size: 1.8rem;
-  }
+.player-details {
+  padding-left: 6px;
+}
 
-  .podium {
+.player-name-compact {
+  font-weight: 500;
+  margin-bottom: 1px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.player-score-compact {
+  color: var(--text-secondary);
+  font-size: 0.75rem;
+}
+
+.mobile-you {
+  background: var(--accent-primary);
+  color: white;
+  font-size: 0.6rem;
+  padding: 1px 6px;
+  border-radius: 8px;
+  margin-left: 4px;
+}
+
+.player-progress-compact {
+  padding: 3px 6px;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  min-width: 40px;
+  text-align: center;
+}
+
+/* Статистика */
+.mobile-stats {
+  display: flex;
+  justify-content: space-around;
+  background: rgba(30, 41, 59, 0.8);
+  border-radius: 14px;
+  padding: 14px 0;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.stat-item-compact {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.stat-value-compact {
+  font-size: 1.2rem;
+  font-weight: 800;
+  color: var(--accent-warning);
+}
+
+.stat-label-compact {
+  font-size: 0.7rem;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-divider-compact {
+  width: 1px;
+  background: rgba(255, 255, 255, 0.1);
+  height: 30px;
+}
+
+/* ===== ДЕСКТОПНАЯ ВЕРСИЯ ===== */
+@media (min-width: 768px) {
+  .mobile-version {
+    display: none;
+  }
+  
+  .desktop-version {
+    display: block;
+  }
+  
+  .leaderboard-container {
+    padding: 40px 20px;
+  }
+  
+  /* Заголовок */
+  .leaderboard-header {
+    margin-bottom: 30px;
+  }
+  
+  .header-content {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  .title-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 8px;
+  }
+  
+  .title-icon {
+    color: var(--accent-warning);
+  }
+  
+  .header-content h1 {
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, var(--accent-primary), var(--accent-secondary));
+  }
+  
+  .subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin: 0;
+  }
+  
+  .current-user-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 24px;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(139, 92, 246, 0.1));
+    border: 1px solid rgba(59, 130, 246, 0.2);
+    border-radius: 16px;
+    max-width: 400px;
+    margin: 0 auto;
+    transition: transform 0.2s;
+  }
+  
+  .current-user-card:hover {
+    transform: translateY(-2px);
+  }
+  
+  .current-user-info {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  
+  .current-rank {
+    display: flex;
+    align-items: center;
     gap: 8px;
-    margin-bottom: 32px;
+    font-weight: 700;
+    font-size: 1.5rem;
+    color: var(--accent-warning);
   }
-
-  .podium-position {
-    width: 110px;
+  
+  .current-user-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
   }
-
-  .avatar {
-    width: 60px;
-    height: 60px;
+  
+  .current-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 1.1rem;
   }
-
-  .podium-position .score {
-    font-size: 1.2rem;
+  
+  .current-score {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
   }
-
-  .podium-base {
-    height: 80px !important;
+  
+  .chevron {
+    color: var(--text-tertiary);
   }
-
-  .table-row {
-    padding: 12px 14px;
-    font-size: 0.9rem;
+  
+  /* Пьедестал */
+  .podium-section {
+    margin-bottom: 30px;
   }
-
-  .table-row .rank {
-    width: 40px;
+  
+  .section-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
   }
-}
-
-@media (max-width: 480px) {
-  .podium {
+  
+  .podium-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .podium-card {
+    display: flex;
     flex-direction: column;
     align-items: center;
+    padding: 24px 16px;
+    text-align: center;
+    position: relative;
+    background: var(--bg-secondary);
+    border-radius: 20px;
+    border: 2px solid transparent;
+    transition: all 0.3s ease;
   }
-
-  .podium-position {
-    width: 90%;
-    max-width: 320px;
+  
+  .podium-card:hover {
+    transform: translateY(-4px);
+    border-color: rgba(59, 130, 246, 0.3);
   }
+  
+  .podium-card.rank-1 {
+    order: 2;
+    background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), transparent);
+  }
+  
+  .podium-card.rank-2 {
+    order: 1;
+    transform: translateY(20px);
+  }
+  
+  .podium-card.rank-3 {
+    order: 3;
+    transform: translateY(20px);
+  }
+  
+  .podium-badge {
+    position: absolute;
+    top: -12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .crown-badge {
+    font-size: 1.5rem;
+  }
+  
+  .rank-badge {
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-weight: 700;
+    font-size: 0.875rem;
+    color: white;
+  }
+  
+  .rank-badge.rank-1 {
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+  }
+  
+  .rank-badge.rank-2 {
+    background: linear-gradient(135deg, #94a3b8, #64748b);
+  }
+  
+  .rank-badge.rank-3 {
+    background: linear-gradient(135deg, #cd7f32, #b45309);
+  }
+  
+  .player-avatar {
+    position: relative;
+    margin-bottom: 16px;
+  }
+  
+  .avatar-circle {
+    width: 80px;
+    height: 80px;
+    background: var(--bg-tertiary);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid;
+  }
+  
+  .podium-card.rank-1 .avatar-circle {
+    border-color: #f59e0b;
+  }
+  
+  .podium-card.rank-2 .avatar-circle {
+    border-color: #94a3b8;
+  }
+  
+  .podium-card.rank-3 .avatar-circle {
+    border-color: #cd7f32;
+  }
+  
+  .you-indicator {
+    position: absolute;
+    bottom: -2px;
+    right: -2px;
+    width: 20px;
+    height: 20px;
+    background: var(--accent-primary);
+    border-radius: 50%;
+    border: 3px solid var(--bg-secondary);
+  }
+  
+  .player-info {
+    margin-bottom: 16px;
+  }
+  
+  .player-name {
+    font-weight: 600;
+    margin: 0 0 8px 0;
+    font-size: 1.2rem;
+  }
+  
+  .player-score {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+  }
+  
+  /* Список игроков */
+  .players-section {
+    max-width: 900px;
+    margin: 0 auto 30px;
+  }
+  
+  .players-list {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  .player-row {
+    display: grid;
+    grid-template-columns: 60px 50px 1fr auto;
+    align-items: center;
+    padding: 16px 20px;
+    background: var(--bg-secondary);
+    border-radius: 12px;
+    transition: all 0.2s;
+  }
+  
+  .player-row:hover {
+    background: var(--bg-tertiary);
+    transform: translateX(4px);
+  }
+  
+  .player-row.current-user-row {
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), transparent);
+    border-left: 4px solid var(--accent-primary);
+  }
+  
+  .row-rank {
+    min-width: 60px;
+  }
+  
+  .row-rank .rank-number {
+    font-weight: 700;
+    font-size: 1.1rem;
+  }
+  
+  .row-rank .rank-number.rank-1 { color: #f59e0b; }
+  .row-rank .rank-number.rank-2 { color: #94a3b8; }
+  .row-rank .rank-number.rank-3 { color: #cd7f32; }
+  
+  .avatar-small {
+    width: 40px;
+    height: 40px;
+    background: var(--bg-tertiary);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .row-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  
+  .row-name {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    font-size: 1rem;
+  }
+  
+  .row-score {
+    color: var(--text-secondary);
+    font-size: 0.875rem;
+  }
+  
+  .row-progress {
+    padding: 6px 12px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    min-width: 60px;
+    text-align: center;
+  }
+  
+  /* Бейджи */
+  .you-badge {
+    background: var(--accent-primary);
+    color: white;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    margin-left: 8px;
+  }
+  
+  .you-badge-small {
+    background: var(--accent-primary);
+    color: white;
+    font-size: 0.625rem;
+    padding: 1px 6px;
+    border-radius: 8px;
+    margin-left: 8px;
+  }
+  
+  /* Статистика */
+  .stats-footer {
+    display: flex;
+    justify-content: space-around;
+    padding: 24px;
+    background: linear-gradient(135deg, rgba(59, 130, 246, 0.05), transparent);
+    border-radius: 20px;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  
+  .stats-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+  }
+  
+  .stats-value {
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent-primary);
+  }
+  
+  .stats-label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+  }
+  
+  .stats-divider {
+    width: 1px;
+    background: var(--bg-tertiary);
+  }
+}
 
-  .podium-base {
-    height: 70px !important;
+/* Карточки */
+.card {
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+/* Анимации */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.leaderboard-screen {
+  animation: fadeIn 0.3s ease-out;
+}
+
+/* Плавные переходы */
+.podium-compact-card,
+.player-compact-row,
+.mobile-user-card,
+.podium-card,
+.player-row {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Очень маленькие экраны */
+@media (max-width: 360px) {
+  .leaderboard-container {
+    padding: 12px;
+  }
+  
+  .mobile-user-card {
+    padding: 10px 12px;
+  }
+  
+  .mobile-user-rank {
+    min-width: 35px;
+    font-size: 1.1rem;
+  }
+  
+  .mobile-avatar {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .mobile-username {
+    font-size: 0.85rem;
+  }
+  
+  .mobile-userscore {
+    font-size: 0.75rem;
+  }
+  
+  .podium-compact-card {
+    grid-template-columns: 35px 45px 1fr auto;
+    padding: 8px 10px;
+  }
+  
+  .compact-rank {
+    font-size: 1rem;
+  }
+  
+  .avatar-compact {
+    width: 32px;
+    height: 32px;
+  }
+  
+  .compact-name {
+    font-size: 0.85rem;
+  }
+  
+  .compact-score {
+    font-size: 0.7rem;
+  }
+  
+  .compact-progress {
+    min-width: 40px;
+    font-size: 0.65rem;
+  }
+  
+  .player-compact-row {
+    grid-template-columns: 30px 28px 1fr auto;
+    padding: 7px 8px;
+    font-size: 0.8rem;
+  }
+  
+  .player-rank {
+    font-size: 0.85rem;
+  }
+  
+  .avatar-tiny {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .mobile-stats {
+    padding: 12px 0;
+  }
+  
+  .stat-value-compact {
+    font-size: 1.1rem;
+  }
+  
+  .stat-label-compact {
+    font-size: 0.65rem;
   }
 }
