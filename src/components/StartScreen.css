@@ -142,3 +142,35 @@
     gap: 0.75rem;
   }
 }
+
+/* ── Показываем/скрываем в зависимости от ширины экрана ── */
+
+.mobile-only {
+  display: block;
+}
+
+.desktop-only {
+  display: none;
+}
+
+@media (min-width: 769px) {
+  .mobile-only {
+    display: none;
+  }
+  .desktop-only {
+    display: block;
+  }
+}
+
+/* Дополнительно — немного отступов для карусели на мобильных */
+.carousel-wrapper {
+  margin: 2rem 0;
+  padding: 0 8px;
+}
+
+/* Если хочешь, чтобы карусель была чуть уже на очень маленьких экранах */
+@media (max-width: 380px) {
+  .carousel-wrapper {
+    padding: 0 4px;
+  }
+}

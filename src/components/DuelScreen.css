@@ -287,9 +287,9 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: 90%;
-  max-width: 500px;
+  max-width: 300px;
   border-radius: var(--radius-xl);
-  padding: 2.5rem;
+  padding: 5rem;
   text-align: center;
   z-index: 1000;
   animation: scaleIn 0.3s ease-out;
