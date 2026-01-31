@@ -794,56 +794,9 @@ h1 {
   .mobile-user-card {
     padding: 10px 12px;
   }
-  
-  .mobile-user-rank {
-    min-width: 35px;
-    font-size: 1.1rem;
-  }
-  
-  .mobile-avatar {
-    width: 32px;
-    height: 32px;
-  }
-  
-  .mobile-username {
-    font-size: 0.85rem;
-  }
-  
-  .mobile-userscore {
-    font-size: 0.75rem;
-  }
-  
-  .podium-compact-card {
-    grid-template-columns: 35px 45px 1fr auto;
-    padding: 8px 10px;
-  }
-  
-  .compact-rank {
-    font-size: 1rem;
-  }
-  
-  .avatar-compact {
-    width: 32px;
-    height: 32px;
-  }
-  
-  .compact-name {
-    font-size: 0.85rem;
-  }
-  
-  .compact-score {
-    font-size: 0.7rem;
-  }
-  
-  .compact-progress {
-    min-width: 40px;
-    font-size: 0.65rem;
-  }
-  
-  .player-compact-row {
-    grid-template-columns: 30px 28px 1fr auto;
-    padding: 7px 8px;
-    font-size: 0.8rem;
+
+  .podium-base {
+    height: 70px !important;
   }
   
   .player-rank {
