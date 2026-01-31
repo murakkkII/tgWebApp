@@ -1,6 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import { Home, Gamepad2, Trophy, Settings } from 'lucide-react';
+import { Home, Gamepad2, Trophy, Settings, UserRoundPlus } from 'lucide-react';
 import './BottomNav.css';
 
 function BottomNav() {
@@ -9,6 +9,7 @@ function BottomNav() {
     { to: '/start', label: 'Играть', icon: Gamepad2 },
     { to: '/leaderboard', label: 'Лидеры', icon: Trophy },
     { to: '/settings', label: 'Настройки', icon: Settings },
+    {to: '/team-battle', label: 'Team Play', icon: UserRoundPlus},
   ];
 
   return (

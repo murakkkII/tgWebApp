@@ -35,15 +35,6 @@ function StartScreen({ score }) {
       difficulty: 'Сложная',
       color: '#ec4899'
     },
-    {
-      id:  'team-battle',
-      title: 'Командная игра',
-      icon: UserRoundPlus,
-      description: 'Играй вместе с друзьями',
-      time: 'неограничено',
-      difficulty: 'Варьируется',
-      color: '#37799f'
-    }
   ];
 
   return (
@@ -65,7 +56,7 @@ function StartScreen({ score }) {
             <div 
               key={mode.id}
               className="mode-card card"
-              onClick={() => mode.id === 'team-battle' ? navigate('/team-battle') : navigate('/duel')}
+              onClick={() => mode.id = navigate('/duel')}
             >
               <div className="mode-header">
                 <div className="mode-icon" style={{ background: mode.color }}>
