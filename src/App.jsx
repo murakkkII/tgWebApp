@@ -1,47 +1,61 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
-// import { ParticleBackground } from './components/ParticleBackground'; // если используешь
+import {BrowserRouter as Router,Routes,Route,Navigate,useLocation,}
+from 'react-router-dom';
 
 import HomeScreen from './components/HomeScreen';
 import StartScreen from './components/StartScreen';
 import DuelScreen from './components/DuelScreen';
 import SettingsScreen from './components/SettingsScreen';
-import Leaderboard from './components/Leaderboard'; // ← добавляем новый компонент
+import Leaderboard from './components/Leaderboard';
+import AuthUserPage from './components/UserAuthPage';
 
 import Navbar from './components/Navbar';
 import BottomNav from './components/BottomNav';
 import { questionsData } from './data/questions';
 import './index.css';
 
+/* ===== utils ===== */
+const isAuthorized = () => !!localStorage.getItem('nickname');
+
+/* ===== protected route ===== */
+function ProtectedRoute({ children }) {
+  return isAuthorized() ? children : <Navigate to="/" replace />;
+}
+
 function AppContent() {
   const location = useLocation();
+  const hideNav = location.pathname === '/';
 
+  /* ===== state ===== */
   const [score, setScore] = useState(() => {
     const saved = localStorage.getItem('quiz-score');
-    return saved ? parseInt(saved) : 0;
+    return saved ? parseInt(saved, 10) : 0;
   });
 
   const [settings, setSettings] = useState(() => {
     const saved = localStorage.getItem('quiz-settings');
-    return saved ? JSON.parse(saved) : {
-      difficulty: 'normal',
-      sound: true,
-      theme: 'dark',
-      username: 'Игрок',
-      animations: true,
-      vibration: true,
-      volume: 80,
-      notifications: true,
-      questionCount: 10
-    };
+    return saved
+      ? JSON.parse(saved)
+      : {
+          difficulty: 'normal',
+          sound: true,
+          theme: 'dark',
+          username: 'Игрок',
+          animations: true,
+          vibration: true,
+          volume: 80,
+          notifications: true,
+          questionCount: 10,
+        };
   });
 
   useEffect(() => {
-    const savedTheme = localStorage.getItem('quiz-theme') || 'dark';
-    document.documentElement.setAttribute('data-theme', savedTheme);
-    setSettings(prev => ({ ...prev, theme: savedTheme }));
+    const theme = localStorage.getItem('quiz-theme') || 'dark';
+    document.documentElement.setAttribute('data-theme', theme);
+    setSettings(prev => ({ ...prev, theme }));
   }, []);
 
+  /* ===== handlers ===== */
   const handleFinishDuel = (finalScore) => {
     const newScore = score + finalScore;
     setScore(newScore);
@@ -57,54 +71,91 @@ function AppContent() {
 
   return (
     <div className="app">
-      {/* { <ParticleBackground /> } */} {/* если используешь */}
-
-      <Navbar
-        currentScreen={location.pathname}
-        score={score}
-        settings={settings}
-      />
+      {/* Навигация скрыта ТОЛЬКО на входе */}
+      {!hideNav && (
+        <Navbar
+          currentScreen={location.pathname}
+          score={score}
+          settings={settings}
+        />
+      )}
 
       <main className="main-content">
         <Routes>
-          <Route path="/" element={
-            <HomeScreen score={score} settings={settings} />
-          } />
+          {/* ===== AUTH ===== */}
+          <Route
+            path="/"
+            element={
+              isAuthorized() ? (
+                <Navigate to="/home" replace />
+              ) : (
+                <AuthUserPage />
+              )
+            }
+          />
 
-          <Route path="/start" element={
-            <StartScreen score={score} settings={settings} />
-          } />
+          {/* ===== PROTECTED ===== */}
+          <Route
+            path="/home"
+            element={
+              <ProtectedRoute>
+                <HomeScreen score={score} settings={settings} />
+              </ProtectedRoute>
+            }
+          />
 
-          <Route path="/duel" element={
-            <DuelScreen
-              onFinish={handleFinishDuel}
-              settings={settings}
-              questionsData={questionsData}
-            />
-          } />
+          <Route
+            path="/start"
+            element={
+              <ProtectedRoute>
+                <StartScreen score={score} settings={settings} />
+              </ProtectedRoute>
+            }
+          />
 
-          <Route path="/settings" element={
-            <SettingsScreen
-              onSave={handleSaveSettings}
-              initialSettings={settings}
-              onBack={() => window.history.back()}
-            />
-          } />
+          <Route
+            path="/duel"
+            element={
+              <ProtectedRoute>
+                <DuelScreen
+                  onFinish={handleFinishDuel}
+                  settings={settings}
+                  questionsData={questionsData}
+                />
+              </ProtectedRoute>
+            }
+          />
 
-          {/* Новый маршрут — лидерборд */}
-          <Route path="/leaderboard" element={
-            <Leaderboard currentUserId="tw1xx1ee" />  // передай реальный ID пользователя
-          } />
+          <Route
+            path="/settings"
+            element={
+              <ProtectedRoute>
+                <SettingsScreen
+                  onSave={handleSaveSettings}
+                  initialSettings={settings}
+                  onBack={() => window.history.back()}
+                />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/leaderboard"
+            element={
+              <ProtectedRoute>
+                <Leaderboard currentUserId="tw1xx1ee" />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </main>
 
-      {location.pathname !== '/duel' && (
-        <BottomNav />
-      )}
+      {!hideNav && location.pathname !== '/duel' && <BottomNav />}
     </div>
   );
 }
 
+/* ===== root ===== */
 export default function App() {
   return (
     <Router>

@@ -1,0 +1,56 @@
+/* Авторизация */
+.auth-card {
+  padding: 2rem;
+  text-align: center;
+}
+
+.auth-inline {
+  display: flex;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.auth-input {
+  flex: 1;
+  height: 48px;
+  padding: 0 1rem;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-primary);
+  font-size: 1rem;
+}
+
+.auth-input::placeholder {
+  color: var(--text-secondary);
+}
+
+.auth-input:focus {
+  outline: none;
+  border-color: var(--primary);
+}
+
+.auth-btn {
+  height: 48px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  white-space: nowrap;
+}
+
+.auth-hint {
+  margin-top: 0.75rem;
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+/* Мобилка */
+@media (max-width: 480px) {
+  .auth-inline {
+    flex-direction: column;
+  }
+
+  .auth-btn {
+    width: 100%;
+  }
+}
