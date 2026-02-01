@@ -50,16 +50,14 @@ function TeamBattle({ score, settings }) {
 
   return (
     <div className="team-battle-page">
-      {/* Баннер без видео, как на скриншоте */}
+      {/* Баннер */}
       <div className="season-banner">
-        <div className="banner-content">
-          <h1 className="season-title">Сезон 3: Покорители космоса</h1>
-          <p className="timer">До конца: {timer}</p>
-          <button className="details-btn">Подробнее</button>
-        </div>
+        <h1 className="season-title">Сезон 3: Покорители космоса</h1>
+        <p className="timer">До конца: {timer}</p>
+        <button className="details-btn">Подробнее</button>
       </div>
 
-      {/* Выделенные быстрые действия */}
+      {/* Быстрые действия 2x2 */}
       <div className="quick-actions-grid">
         {quickActions.map((action) => (
           <button key={action.label} className="quick-card">
@@ -71,13 +69,13 @@ function TeamBattle({ score, settings }) {
         ))}
       </div>
 
-      {/* Режимы по 3 в ряд */}
+      {/* Режимы с горизонтальным скроллом */}
       {hasTeam ? (
         <div className="modes-section">
           <h2 className="section-title">Режимы игры</h2>
-          <div className="modes-grid">
+          <div className="modes-scroll">
             {modes.map((mode) => (
-              <div key={mode.title} className="mode-card">
+              <div key={mode.title} className="mode-item">
                 <div className="icon-square" style={{ backgroundColor: mode.color }}>
                   <span className="mode-icon">{mode.icon}</span>
                 </div>

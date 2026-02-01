@@ -3,17 +3,12 @@
   min-height: 100vh;
 }
 
-/* Баннер как на скриншоте */
+/* Баннер */
 .season-banner {
   background: #0f0f1a;
   margin: 16px;
   border-radius: 24px;
   padding: 24px 20px;
-  position: relative;
-}
-
-.banner-content {
-  text-align: left;
 }
 
 .season-title {
@@ -27,7 +22,7 @@
 
 .timer {
   font-size: 15px;
-  color: #ddd;
+  color: #ccc;
   margin: 0 0 16px;
 }
 
@@ -40,13 +35,13 @@
   font-size: 14px;
 }
 
-/* Выделенные быстрые действия */
+/* Быстрые действия 2x2 */
 .quick-actions-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 20px;
   padding: 0 16px;
-  margin: 32px 0;
+  margin: 20px 0 40px;
 }
 
 .quick-card {
@@ -75,7 +70,7 @@
   margin: 0;
 }
 
-/* Режимы по 3 в ряд */
+/* Режимы с горизонтальным скроллом */
 .modes-section {
   padding: 0 16px 80px;
 }
@@ -85,54 +80,40 @@
   font-weight: 700;
   text-align: center;
   color: white;
-  margin: 40px 0 32px;
+  margin: 0 0 32px;
 }
 
-.modes-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+.modes-scroll {
+  display: flex;
+  overflow-x: auto;
   gap: 20px;
+  padding: 0 16px 20px;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch; /* Плавный скролл на iOS */
 }
 
-/* На мобильных — 2 или 1 колонка */
-@media (max-width: 600px) {
-  .modes-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+.modes-scroll::-webkit-scrollbar {
+  display: none; /* Скрыть скроллбар */
 }
 
-@media (max-width: 400px) {
-  .modes-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-.mode-card {
+.mode-item {
+  flex: 0 0 280px; /* Фиксированная ширина каждой колонки */
+  scroll-snap-align: start;
   background: var(--tg-theme-secondary-bg-color);
   border-radius: 24px;
-  padding: 24px 16px;
+  padding: 24px 20px;
   text-align: center;
   display: flex;
   flex-direction: column;
 }
 
-.icon-square {
-  width: 70px;
-  height: 70px;
-  border-radius: 18px;
-  margin: 0 auto 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
 .mode-icon {
-  font-size: 38px;
+  font-size: 40px;
 }
 
-.mode-card h3 {
-  font-size: 17px;
-  margin: 0 0 12px;
+.mode-item h3 {
+  font-size: 18px;
+  margin: 20px 0 12px;
   color: white;
 }
 
@@ -140,6 +121,7 @@
   font-size: 14px;
   opacity: 0.8;
   margin: 0 0 12px;
+  flex-grow: 1;
 }
 
 .details {
