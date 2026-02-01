@@ -83,19 +83,41 @@
   margin: 0 0 32px;
 }
 
-.modes-scroll {
+./* Горизонтальный скролл режимов */
+.modes-horizontal-scroll {
   display: flex;
   overflow-x: auto;
-  gap: 20px;
-  padding: 0 16px 20px;
+  gap: 16px;
+  padding: 0 16px 20px 16px;
   scroll-snap-type: x mandatory;
-  -webkit-overflow-scrolling: touch; /* Плавный скролл на iOS */
+  -webkit-overflow-scrolling: touch; /* Плавный скролл на iPhone */
+  scrollbar-width: none; /* Firefox */
 }
 
-.modes-scroll::-webkit-scrollbar {
-  display: none; /* Скрыть скроллбар */
+.modes-horizontal-scroll::-webkit-scrollbar {
+  display: none; /* Chrome/Safari */
 }
 
+.mode-card-horizontal {
+  flex: 0 0 280px; /* Фиксированная ширина карточки */
+  scroll-snap-align: center; /* Snap к центру карточки при скролле */
+  background: var(--tg-theme-secondary-bg-color);
+  border-radius: 24px;
+  padding: 24px 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.mode-icon {
+  font-size: 48px;
+}
+
+.mode-card-horizontal h3 {
+  font-size: 18px;
+  margin: 20px 0 12px;
+  color: white;
+}
 .mode-item {
   flex: 0 0 280px; /* Фиксированная ширина каждой колонки */
   scroll-snap-align: start;
@@ -105,10 +127,6 @@
   text-align: center;
   display: flex;
   flex-direction: column;
-}
-
-.mode-icon {
-  font-size: 40px;
 }
 
 .mode-item h3 {

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import '../index.css';
+import '../TeamBattle.css';
 
 function TeamBattle({ score, settings }) {
   const [hasTeam, setHasTeam] = useState(true);
@@ -73,9 +73,9 @@ function TeamBattle({ score, settings }) {
       {hasTeam ? (
         <div className="modes-section">
           <h2 className="section-title">Режимы игры</h2>
-          <div className="modes-scroll">
+          <div className="modes-horizontal-scroll">
             {modes.map((mode) => (
-              <div key={mode.title} className="mode-item">
+              <div key={mode.title} className="mode-card-horizontal">
                 <div className="icon-square" style={{ backgroundColor: mode.color }}>
                   <span className="mode-icon">{mode.icon}</span>
                 </div>
