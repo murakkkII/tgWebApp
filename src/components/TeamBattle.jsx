@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import '../TeamBattle.css';
+import './TeamBattle.css';
 
 function TeamBattle({ score, settings }) {
   const [hasTeam, setHasTeam] = useState(true);
