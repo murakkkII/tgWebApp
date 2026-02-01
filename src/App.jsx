@@ -1,14 +1,12 @@
 import { useState, useEffect } from 'react';
-import {BrowserRouter as Router,Routes,Route,Navigate,useLocation,}
-from 'react-router-dom';
-
+import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import HomeScreen from './components/HomeScreen';
 import StartScreen from './components/StartScreen';
 import DuelScreen from './components/DuelScreen';
 import SettingsScreen from './components/SettingsScreen';
 import Leaderboard from './components/Leaderboard';
 import AuthUserPage from './components/UserAuthPage';
-
+import TeamBattle from './components/TeamBattle'; // ← Новый импорт
 import Navbar from './components/Navbar';
 import BottomNav from './components/BottomNav';
 import { questionsData } from './data/questions';
@@ -147,9 +145,20 @@ function AppContent() {
               </ProtectedRoute>
             }
           />
+
+          {/* ← Новый защищённый маршрут */}
+          <Route
+            path="/team-battle"
+            element={
+              <ProtectedRoute>
+                <TeamBattle score={score} settings={settings} />
+              </ProtectedRoute>
+            }
+          />
         </Routes>
       </main>
 
+      {/* BottomNav скрыт на стартовом экране и в дуэли */}
       {!hideNav && location.pathname !== '/duel' && <BottomNav />}
     </div>
   );

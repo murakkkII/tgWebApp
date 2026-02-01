@@ -1,0 +1,167 @@
+.team-battle-page {
+  padding-bottom: 80px;
+  min-height: 100vh;
+}
+
+/* Баннер как на скриншоте */
+.season-banner {
+  background: #0f0f1a;
+  margin: 16px;
+  border-radius: 24px;
+  padding: 24px 20px;
+  position: relative;
+}
+
+.banner-content {
+  text-align: left;
+}
+
+.season-title {
+  font-size: 28px;
+  font-weight: 800;
+  background: linear-gradient(90deg, #aa00ff, #8000ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  margin: 0 0 8px;
+}
+
+.timer {
+  font-size: 15px;
+  color: #ddd;
+  margin: 0 0 16px;
+}
+
+.details-btn {
+  background: #333;
+  color: #ccc;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+/* Выделенные быстрые действия */
+.quick-actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  padding: 0 16px;
+  margin: 32px 0;
+}
+
+.quick-card {
+  background: transparent;
+  border: none;
+  text-align: center;
+  color: var(--tg-theme-text-color);
+}
+
+.icon-square {
+  width: 80px;
+  height: 80px;
+  border-radius: 20px;
+  margin: 0 auto 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.quick-icon {
+  font-size: 40px;
+}
+
+.quick-card p {
+  font-size: 15px;
+  margin: 0;
+}
+
+/* Режимы по 3 в ряд */
+.modes-section {
+  padding: 0 16px 80px;
+}
+
+.section-title {
+  font-size: 28px;
+  font-weight: 700;
+  text-align: center;
+  color: white;
+  margin: 40px 0 32px;
+}
+
+.modes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
+}
+
+/* На мобильных — 2 или 1 колонка */
+@media (max-width: 600px) {
+  .modes-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 400px) {
+  .modes-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.mode-card {
+  background: var(--tg-theme-secondary-bg-color);
+  border-radius: 24px;
+  padding: 24px 16px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.icon-square {
+  width: 70px;
+  height: 70px;
+  border-radius: 18px;
+  margin: 0 auto 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mode-icon {
+  font-size: 38px;
+}
+
+.mode-card h3 {
+  font-size: 17px;
+  margin: 0 0 12px;
+  color: white;
+}
+
+.desc {
+  font-size: 14px;
+  opacity: 0.8;
+  margin: 0 0 12px;
+}
+
+.details {
+  font-size: 13px;
+  opacity: 0.7;
+  margin: 0 0 16px;
+}
+
+.progress {
+  font-size: 14px;
+  color: #aa00ff;
+  font-weight: bold;
+  margin: 0 0 20px;
+}
+
+.play-btn {
+  background: linear-gradient(90deg, #aa00ff, #8000ff);
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 20px;
+  font-size: 16px;
+  font-weight: bold;
+  margin-top: auto;
+}
