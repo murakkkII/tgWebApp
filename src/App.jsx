@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate, useLocation } from 'react-router-dom';
-import HomeScreen from './components/HomeScreen';
-import StartScreen from './components/StartScreen';
-import DuelScreen from './components/DuelScreen';
-import SettingsScreen from './components/SettingsScreen';
-import Leaderboard from './components/Leaderboard';
-import AuthUserPage from './components/UserAuthPage';
-import TeamBattle from './components/TeamBattle'; // ← Новый импорт
-import Navbar from './components/Navbar';
-import BottomNav from './components/BottomNav';
+import HomeScreen from './components/pages/HomeScreen/HomeScreen';
+import StartScreen from './components/pages/StartScreen/StartScreen';
+import DuelScreen from './components/pages/DuelScreen/DuelScreen';
+import SettingsScreen from './components/pages/SettingsScreen/SettingsScreen';
+import Leaderboard from './components/pages/Leaderboard/Leaderboard';
+import AuthUserPage from './components/pages/UserAuthPage/UserAuthPage';
+import TeamBattle from './components/pages/Teambattle/TeamBattle'; // ← Новый импорт
+import Navbar from './components/ui/NavBar/Navbar';
+import BottomNav from './components/ui/BottomNav/BottomNav';
 import { questionsData } from './data/questions';
 import './index.css';
 
