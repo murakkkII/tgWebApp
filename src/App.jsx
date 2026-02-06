@@ -6,7 +6,8 @@ import DuelScreen from './components/pages/DuelScreen/DuelScreen';
 import SettingsScreen from './components/pages/SettingsScreen/SettingsScreen';
 import Leaderboard from './components/pages/Leaderboard/Leaderboard';
 import AuthUserPage from './components/pages/UserAuthPage/UserAuthPage';
-import TeamBattle from './components/pages/Teambattle/TeamBattle'; // ← Новый импорт
+import TeamBattle from './components/pages/Teambattle/TeamBattle';
+import BossRaid from './components/pages/Teambattle/BossRaid/BossRaid'; // ← убедитесь, что путь правильный
 import Navbar from './components/ui/NavBar/Navbar';
 import BottomNav from './components/ui/BottomNav/BottomNav';
 import { questionsData } from './data/questions';
@@ -69,7 +70,6 @@ function AppContent() {
 
   return (
     <div className="app">
-      {/* Навигация скрыта ТОЛЬКО на входе */}
       {!hideNav && (
         <Navbar
           currentScreen={location.pathname}
@@ -146,7 +146,6 @@ function AppContent() {
             }
           />
 
-          {/* ← Новый защищённый маршрут */}
           <Route
             path="/team-battle"
             element={
@@ -155,16 +154,27 @@ function AppContent() {
               </ProtectedRoute>
             }
           />
+
+          {/* ← НОВЫЙ МАРШРУТ — Босс-рейд */}
+          <Route
+            path="/team/modes/boss"
+            element={
+              <ProtectedRoute>
+                <BossRaid />
+              </ProtectedRoute>
+            }
+          />
+
+          {/* Опционально: редирект со старого /team */}
+          <Route path="/team" element={<Navigate to="/team-battle" replace />} />
         </Routes>
       </main>
 
-      {/* BottomNav скрыт на стартовом экране и в дуэли */}
       {!hideNav && location.pathname !== '/duel' && <BottomNav />}
     </div>
   );
 }
 
-/* ===== root ===== */
 export default function App() {
   return (
     <Router>

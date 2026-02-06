@@ -1,129 +1,154 @@
 // BossRaid.jsx
 import { useNavigate } from 'react-router-dom';
-import { ArrowLeft, Crown, Sword, Users, Target } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import { Sword, Skull, Users, Clock, Zap, Crown, ArrowLeft } from 'lucide-react';
 import './BossRaid.css';
 
-function BossRaid() {
-  const navigate = useNavigate();
-  const [particles, setParticles] = useState([]);
+const fakePlayers = [
+  { id: 1, name: "xSlaughteR", avatar: "https://i.imgur.com/abc123.png", damage: 0, ready: true },
+  { id: 2, name: "NeonKiller99", avatar: null, damage: 0, ready: false },
+  { id: 3, name: "RageQueen",    avatar: "https://i.imgur.com/xyz789.png", damage: 0, ready: true },
+  { id: 4, name: "PhantomX",     avatar: null, damage: 0, ready: true },
+  { id: 5, name: "你死定了",       avatar: null, damage: 0, ready: false },
+  { id: 6, name: "BLOODxSHOT",   avatar: "https://i.imgur.com/def456.png", damage: 0, ready: true },
+];
 
+const currentBoss = {
+  name: "DEATHSCYTHE",
+  avatar: "https://i.imgur.com/boss-skull-neon.png", // замени на реальную
+  level: 85,
+  hp: 12_450_000,
+};
+
+export default function BossRaid() {
+  const navigate = useNavigate();
+  const [screen, setScreen] = useState('welcome'); // welcome → lobby → vote → fight
+  const [voteTime, setVoteTime] = useState(5);
+  const [myVote, setMyVote] = useState(null);
+
+  // ─── таймер голосования ───
   useEffect(() => {
-    // Создаем эффект частиц
-    const newParticles = Array.from({ length: 20 }).map((_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      size: Math.random() * 2 + 1,
-      speed: Math.random() * 1 + 0.5
-    }));
-    setParticles(newParticles);
-  }, []);
+    if (screen !== 'vote') return;
+    if (voteTime <= 0) {
+      setScreen('fight');
+      return;
+    }
+    const t = setTimeout(() => setVoteTime(v => v - 1), 1000);
+    return () => clearTimeout(t);
+  }, [screen, voteTime]);
+
+  const handleEnterRaid = () => setScreen('lobby');
+
+  const handleVote = (type) => {
+    setMyVote(type);
+    // можно сразу завершить голосование для теста
+    // setTimeout(() => setScreen('fight'), 800);
+  };
 
   return (
-    <div className="page-container animate-fade-in">
-      {/* Частицы на фоне */}
-      {particles.map(p => (
-        <div
-          key={p.id}
-          className="particle"
-          style={{
-            left: `${p.x}%`,
-            top: `${p.y}%`,
-            width: `${p.size}px`,
-            height: `${p.size}px`,
-            animation: `float ${p.speed * 10}s infinite ease-in-out`
-          }}
-        />
-      ))}
-      
-      <div className="start-header">
-        <button className="back-btn" onClick={() => navigate('/team')}>
-          <ArrowLeft size={20} />
-        </button>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '15px' }}>
-          <Sword size={32} color="#8b5cf6" />
-          <h1>Босс-рейд</h1>
-          <Target size={32} color="#f59e0b" />
-        </div>
-      </div>
-      
-      <div className="content">
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px', marginBottom: '20px' }}>
-          <Crown size={24} color="#fbbf24" />
-          <h2 style={{ 
-            fontSize: '1.8rem', 
-            background: 'linear-gradient(90deg, #fbbf24, #f59e0b)',
-            WebkitBackgroundClip: 'text',
-            backgroundClip: 'text',
-            color: 'transparent',
-            margin: 0
-          }}>
-            Ежедневный босс
-          </h2>
-        </div>
-        
-        <p style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-          <Users size={20} />
-          Кооперативная битва с мощным боссом. 4–10 игроков
-        </p>
-        
-        <div style={{ 
-          padding: '20px', 
-          background: 'rgba(30, 41, 59, 0.4)', 
-          borderRadius: '16px',
-          margin: '30px 0',
-          border: '1px solid rgba(100, 116, 139, 0.2)'
-        }}>
-          <p style={{ 
-            color: '#fbbf24', 
-            fontSize: '1.4rem',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '15px',
-            margin: 0
-          }}>
-            <span style={{ fontSize: '2rem' }}>🥈</span>
-            Лучший дамаг: 2-е место
-          </p>
-          <div style={{ 
-            height: '8px', 
-            background: 'rgba(100, 116, 139, 0.3)', 
-            borderRadius: '4px',
-            marginTop: '15px',
-            overflow: 'hidden'
-          }}>
-            <div style={{
-              width: '85%',
-              height: '100%',
-              background: 'linear-gradient(90deg, #fbbf24, #f59e0b)',
-              borderRadius: '4px',
-              boxShadow: '0 0 10px rgba(245, 158, 11, 0.5)'
-            }} />
+    <div className="boss-raid-page">
+
+      {/* Фон + частицы / glitch-эффект можно добавить в css */}
+      <div className="bg-neon-grid" />
+
+      {screen === 'welcome' && (
+        <div className="welcome-screen">
+          <div className="welcome-content">
+            <h1 className="glitch" data-text="ВРЕМЯ УБИВАТЬ">
+              ВРЕМЯ УБИВАТЬ
+            </h1>
+            <p className="subtitle">Босс-рейд уже ждёт твоей ярости</p>
+
+            <button className="btn btn-enter" onClick={handleEnterRaid}>
+              <Zap size={28} />
+              ВРЫВАЕМСЯ
+            </button>
+
+            <button className="btn-back" onClick={() => navigate(-1)}>
+              <ArrowLeft /> назад
+            </button>
           </div>
         </div>
-        
-        <button className="btn btn-primary btn-full">
-          <span style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '10px' }}>
-            <Sword size={24} />
-            Войти в рейд
-          </span>
-        </button>
-        
-        <p style={{ 
-          fontSize: '0.9rem', 
-          color: '#94a3b8', 
-          textAlign: 'center', 
-          marginTop: '20px',
-          fontStyle: 'italic'
-        }}>
-          Босс обновляется ежедневно в 00:00
-        </p>
-      </div>
+      )}
+
+      {screen === 'lobby' && (
+        <>
+          <header className="lobby-header">
+            <button className="btn-back" onClick={() => setScreen('welcome')}>
+              <ArrowLeft />
+            </button>
+            <h2>Босс: <span className="boss-name">{currentBoss.name}</span></h2>
+          </header>
+
+          <div className="boss-preview">
+            <img src={currentBoss.avatar} alt="boss" className="boss-avatar" />
+            <div className="boss-info">
+              Уровень {currentBoss.level} • HP {currentBoss.hp.toLocaleString()}
+            </div>
+          </div>
+
+          <div className="players-grid">
+            {fakePlayers.map(p => (
+              <div key={p.id} className={`player-card ${p.ready ? 'ready' : ''}`}>
+                <div className="avatar-wrapper">
+                  {p.avatar ? (
+                    <img src={p.avatar} alt={p.name} />
+                  ) : (
+                    <div className="no-avatar">{p.name[0]}</div>
+                  )}
+                  {p.ready && <div className="ready-badge">READY</div>}
+                </div>
+                <div className="player-name">{p.name}</div>
+              </div>
+            ))}
+          </div>
+
+          <button
+            className="btn btn-start"
+            onClick={() => setScreen('vote')}
+            disabled={fakePlayers.filter(p => p.ready).length < 3}
+          >
+            <Clock size={20} />
+            НАЧАТЬ ГОЛОСОВАНИЕ
+          </button>
+        </>
+      )}
+
+      {screen === 'vote' && (
+        <div className="vote-screen">
+          <h2 className="vote-title">КТО ВЫНЕСЕТ БОЛЬШЕ ВСЕХ?</h2>
+          <div className="timer-big">{voteTime}</div>
+
+          <div className="vote-buttons">
+            <button
+              className={`btn-vote ${myVote === 'solo' ? 'selected' : ''}`}
+              onClick={() => handleVote('solo')}
+              disabled={!!myVote}
+            >
+              Я ОДИН ВЫНЕСУ ЭТУ ТВАРЬ
+            </button>
+
+            <button
+              className={`btn-vote ${myVote === 'team' ? 'selected' : ''}`}
+              onClick={() => handleVote('team')}
+              disabled={!!myVote}
+            >
+              ВМЕСТЕ РАЗЪЕБЁМ
+            </button>
+          </div>
+
+          <p className="vote-hint">Осталось {voteTime} сек...</p>
+        </div>
+      )}
+
+      {screen === 'fight' && (
+        <div className="fight-screen">
+          <h1>БИТВА НАЧАЛАСЬ</h1>
+          <p>Сейчас будет лютый замес...</p>
+          {/* здесь уже будет игровое поле, hp босса, урон и т.д. */}
+        </div>
+      )}
+
     </div>
   );
 }
-
-export default BossRaid;
-
